@@ -19,6 +19,7 @@ CREATE DATABASE "atividade_sad";
 USE "atividade_sad";
 ```
 Execução:
+
 ![Script SQL](images/image16.png)
 
 Agora vamos criar nossa tabela com o script fornecido na atividade.
@@ -42,6 +43,7 @@ CREATE TABLE Vendas (
 );
 ```
 Execução:
+
 ![Script SQL](images/image13.png)
 
 ## Inserindo dados aleatórios na tabela
@@ -85,6 +87,7 @@ BEGIN
 END
 ```
 Execução:
+
 ![Script SQL](images/image14.png)
 
 ## Consultando os dados inseridos
@@ -96,12 +99,14 @@ Script SQL:
 SELECT * FROM Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image8.png)
 
 ## Criando o Data Warehouse
 Aqui começa o verdadeiro desafio. Precisamos analisar nossa tabela para extrair seus campos e dividi-los entre a tabela de Fato e as Dimensões.
 
 Para ilustrar, temos o seguinte diagrama como resultado:
+
 ![Diagrama](images/image1.png)
 
 Com nossa estrutura definida, precisamos criar os scripts SQL.
@@ -117,6 +122,7 @@ CREATE TABLE DIM_Clientes (
 );
 ```
 Execução:
+
 ![Script SQL](images/image11.png)
 
 ### Criando a dimensão Produtos
@@ -130,6 +136,7 @@ CREATE TABLE DIM_Produtos (
 );
 ```
 Execução:
+
 ![Script SQL](images/image10.png)
 
 ### Criando a dimensão Vendedores
@@ -142,6 +149,7 @@ CREATE TABLE DIM_Vendedores (
 );
 ```
 Execução:
+
 ![Script SQL](images/image9.png)
 
 ### Criando a dimensão Datas
@@ -160,6 +168,7 @@ CREATE TABLE DIM_Datas (
 );
 ```
 Execução:
+
 ![Script SQL](images/image6.png)
 
 ### Criando a tabela Fato
@@ -177,6 +186,7 @@ CREATE TABLE FT_Vendas (
 );
 ```
 Execução:
+
 ![Script SQL](images/image12.png)
 
 ### Importando dados para a dimensão Clientes
@@ -190,6 +200,7 @@ SELECT DISTINCT
 FROM Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image15.png)
 
 ### Importando dados para a dimensão Produtos
@@ -203,6 +214,7 @@ SELECT DISTINCT
 FROM Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image3.png)
 
 ### Importando dados para a dimensão Vendedores
@@ -215,6 +227,7 @@ SELECT DISTINCT
 FROM Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image4.png)
 
 ### Importando dados para a dimensão Datas
@@ -232,6 +245,7 @@ SELECT DISTINCT
 FROM Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image5.png)
 
 ### Importando dados para a tabela Fato
@@ -254,6 +268,7 @@ FROM
     INNER JOIN DIM_Vendedores dv ON v.NomeVendedor = dv.Nome;
 ```
 Execução:
+
 ![Script SQL](images/image7.png)
 
 ### Selecionando os registros da tabela fato
@@ -263,6 +278,7 @@ Script SQL:
 SELECT * FROM FT_Vendas;
 ```
 Execução:
+
 ![Script SQL](images/image17.png)
 
 ### Selecionando os registros da tabela Fato com as Dimensões
@@ -290,5 +306,6 @@ INNER JOIN
     DIM_Vendedores dv ON v.VendedorID = dv.ID;
 ```
 Execução:
+
 ![Script SQL](images/image2.png)
 
