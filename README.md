@@ -3,6 +3,7 @@ Repositório destinado a armazenar e organizar as atividades realizadas durante 
 
 ## Atividades
 - [Criação de Data Warehouse](data-warehouse/README.md)
+- [ETL, ODS e Modelo Dimensional](etl-ods-dw/README.md)
 
 ## Links úteis
 - [DataGrip](https://www.jetbrains.com/pt-br/datagrip/)
