@@ -290,8 +290,7 @@ Criar um modelo dimensional (*Data Warehouse*) implica na concepção de uma est
     - DATA (a ser criada)
     - CANAL (a ser criada a partir do campo CANAL_VENDAS em ODS_VENDAS)
 - FATO
-    - ODS_VENDAS
-    - ODS_ITENS_VENDA
+    - ODS_VENDAS // ODS_ITENS_VENDA
 
 ### Criando a nova estrutura 
 1. Dimensão de Cliente
