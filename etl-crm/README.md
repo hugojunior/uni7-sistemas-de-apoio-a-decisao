@@ -11,7 +11,7 @@ Para iniciar, vamos estabelecer a estrutura inicial da base de dados com a qual 
 
 ![Diagrama Inicial](images/image1.png)
 
-[Clique aqui](sql/db-crm-v1.sql) para visualizar o arquivo SQL do diagrama.
+> [Clique aqui](sql/db-crm-v1.sql) para copiar o SQL com a estrutura do diagrama, ou [clique aqui](sql/db-crm-data-v1.sql) para os dados.
 
 ## Aplicar ETL na base
 Aplicar ETL (*Extract, Transform, Load*) envolve a extração de dados de diversas fontes, sua transformação para atender aos requisitos de análise e sua carga em um destino adequado. É um processo essencial para integrar e preparar dados para análise, garantindo que estejam limpos, consistentes e prontos para uso.
