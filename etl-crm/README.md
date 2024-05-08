@@ -11,7 +11,7 @@ Para iniciar, vamos estabelecer a estrutura inicial da base de dados com a qual 
 
 ![Diagrama Inicial](images/image1.png)
 
-> [Clique aqui](sql/db-crm-v1.sql) para copiar o SQL com a estrutura do diagrama, ou [clique aqui](sql/db-crm-data-v1.sql) para os dados.
+> [Clique aqui](sql/db-crm-v1.sql) para copiar o SQL da estrutura, ou [clique aqui](sql/db-crm-data-v1.sql) para os dados iniciais.
 
 ## Aplicar ETL na base
 Aplicar ETL (*Extract, Transform, Load*) envolve a extração de dados de diversas fontes, sua transformação para atender aos requisitos de análise e sua carga em um destino adequado. É um processo essencial para integrar e preparar dados para análise, garantindo que estejam limpos, consistentes e prontos para uso.
@@ -195,10 +195,111 @@ CREATE TABLE ODS_Interacoes (
 );
 ```
 
+#### Importando os dados para o ODS
+1. Tabela de Clientes
+```sql
+SET IDENTITY_INSERT dbo.ODS_Clientes ON;
+INSERT INTO ODS_Clientes (Nome, Sobrenome, Email, Telefone, Endereco, Cidade, Estado, CEP)
+SELECT DISTINCT
+    PARSENAME(REPLACE(nomeComp, ' ', '.'), 2) AS primeiro_nome,
+    PARSENAME(REPLACE(nomeComp, ' ', '.'), 1) AS ultimo_nome,
+    email,
+    telefone,
+    endRua,
+    endCid,
+    endEst,
+    endCEP
+FROM CustomerData;
+SET IDENTITY_INSERT dbo.ODS_Clientes OFF;
+```
+2. Tabela de Pedidos
+```sql
+SET IDENTITY_INSERT dbo.ODS_Pedidos ON;
+INSERT INTO ODS_Pedidos(PedidoID, ClienteID, DataPedido, StatusPedido)
+SELECT DISTINCT
+    ordensID,
+    clienteID,
+    dataOrdens,
+    statusPedido
+FROM OrdensTrans;
+SET IDENTITY_INSERT dbo.ODS_Pedidos OFF;
+```
+3. Tabela de Itens do Pedido
+```sql
+SET IDENTITY_INSERT dbo.ODS_ItensPedido ON;
+INSERT INTO ODS_ItensPedido(ItemPedidoID ,PedidoID, ProdutoID, Quantidade, PrecoUnitario)
+SELECT DISTINCT
+    itemID,
+    pedidoID,
+    prodID,
+    qtd,
+    precoUnit
+FROM PedidoItens;
+SET IDENTITY_INSERT dbo.ODS_ItensPedido OFF;
+```
+4. Tabela de Produtos
+```sql
+SET IDENTITY_INSERT dbo.ODS_Produtos ON;
+INSERT INTO ODS_Produtos(ProdutoID, Nome, Descricao, Preco)
+SELECT DISTINCT
+    prodID,
+    prodNome,
+    prodDesc,
+    prodPreco
+FROM ProdInfos;
+SET IDENTITY_INSERT dbo.ODS_Produtos OFF;
+```
+5. Tabela de Categorias
+```sql
+SET IDENTITY_INSERT dbo.ODS_Categorias ON;
+INSERT INTO ODS_Categorias(CategoriaID, Nome)
+SELECT DISTINCT
+    catID,
+    catNome
+FROM CatTabela;
+SET IDENTITY_INSERT dbo.ODS_Categorias OFF;
+```
+6. Tabela de Categorias do Produto
+```sql
+INSERT INTO ODS_ProdutoCategoria(ProdutoID, CategoriaID)
+SELECT DISTINCT
+    prodID,
+    categoriaID
+FROM ProdInfos;
+```
+7. Tabela de Funcionários
+```sql
+SET IDENTITY_INSERT dbo.ODS_Funcionarios ON;
+INSERT INTO ODS_Funcionarios(FuncionarioID, Nome, Sobrenome, Email, Telefone, Cargo)
+SELECT DISTINCT
+    funcID,
+    firstName,
+    lastName,
+    email,
+    tel,
+    cargo
+FROM EmployeePessoas;
+SET IDENTITY_INSERT dbo.ODS_Funcionarios OFF;
+```
+8. Tabela de Interações
+```sql
+SET IDENTITY_INSERT dbo.ODS_Interacoes ON;
+INSERT INTO ODS_Interacoes(InteracaoID, ClienteID, FuncionarioID, Data, Tipo, Anotacoes)
+SELECT DISTINCT
+    logID,
+    clienteID,
+    funcID,
+    dataInter,
+    tipo,
+    anot
+FROM InteracLogs;
+SET IDENTITY_INSERT dbo.ODS_Interacoes OFF;
+```
+
 #### Ao final, teremos a seguinte estrutura:
 ![Estrutura ODS](images/image2.png)
 
-[Clique aqui](sql/db-crm-v2.sql) para visualizar o arquivo SQL do diagrama.
+> [Clique aqui](sql/db-crm-v2.sql) para copiar o SQL da estrutura, ou [clique aqui](sql/db-crm-data-import-ods.sql) para o SQL de importação.
 
 ## Criar o modelo dimensional (DW)
 Criar um modelo dimensional (*Data Warehouse*) implica na concepção de uma estrutura de dados otimizada para análise de negócios. Esse modelo é composto por tabelas de fatos que representam métricas de negócios e tabelas de dimensão que fornecem contexto para essas métricas. O objetivo é facilitar consultas analíticas eficientes e oferecer uma visão consistente e integrada dos dados da organização.
