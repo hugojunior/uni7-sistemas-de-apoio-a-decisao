@@ -58,13 +58,12 @@ SELECT DISTINCT
 FROM ODS_Pedidos;
 
 -- IMPORTANDO OS DADOS PARA FATO PEDIDO
-INSERT INTO FatoPedido(ClienteID, FuncionarioID, DataID, InteracaoID, StatusPedido, ProdutoID, Quantidade, PrecoUnitario)
+INSERT INTO FatoPedido(ClienteID, FuncionarioID, DataID, InteracaoID, ProdutoID, Quantidade, PrecoUnitario)
 SELECT DISTINCT
     OC.ClienteID,
     OI.FuncionarioID,
     DT.DataID,
     OI.InteracaoID,
-    OP.StatusPedido,
     OIP.ProdutoID,
     OIP.Quantidade,
     OIP.PrecoUnitario

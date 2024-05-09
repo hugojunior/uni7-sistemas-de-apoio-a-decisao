@@ -60,7 +60,6 @@ CREATE TABLE FatoPedido (
     FuncionarioID INT FOREIGN KEY REFERENCES DimensaoFuncionario(FuncionarioID),
     DataID INT FOREIGN KEY REFERENCES DimensaoTempo(DataID),
     InteracaoID INT FOREIGN KEY REFERENCES DimensaoInteracao(InteracaoID),
-    StatusPedido VARCHAR(20) NOT NULL,
     ProdutoID INT FOREIGN KEY REFERENCES DimensaoProduto(ProdutoID),
     Quantidade INT NOT NULL,
     PrecoUnitario DECIMAL(10,2) NOT NULL

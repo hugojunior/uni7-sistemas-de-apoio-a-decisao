@@ -387,7 +387,6 @@ CREATE TABLE FatoPedido (
     FuncionarioID INT FOREIGN KEY REFERENCES DimensaoFuncionario(FuncionarioID),
     DataID INT FOREIGN KEY REFERENCES DimensaoTempo(DataID),
     InteracaoID INT FOREIGN KEY REFERENCES DimensaoInteracao(InteracaoID),
-    StatusPedido VARCHAR(20) NOT NULL,
     ProdutoID INT FOREIGN KEY REFERENCES DimensaoProduto(ProdutoID),
     Quantidade INT NOT NULL,
     PrecoUnitario DECIMAL(10,2) NOT NULL
@@ -461,13 +460,12 @@ FROM ODS_Pedidos;
 ```
 7. Fato de Pedido
 ```sql
-INSERT INTO FatoPedido(ClienteID, FuncionarioID, DataID, InteracaoID, StatusPedido, ProdutoID, Quantidade, PrecoUnitario)
+INSERT INTO FatoPedido(ClienteID, FuncionarioID, DataID, InteracaoID, ProdutoID, Quantidade, PrecoUnitario)
 SELECT DISTINCT
     OC.ClienteID,
     OI.FuncionarioID,
     DT.DataID,
     OI.InteracaoID,
-    OP.StatusPedido,
     OIP.ProdutoID,
     OIP.Quantidade,
     OIP.PrecoUnitario
