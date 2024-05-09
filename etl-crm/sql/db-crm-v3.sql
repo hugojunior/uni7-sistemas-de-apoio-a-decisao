@@ -11,18 +11,18 @@ CREATE TABLE DimensaoCliente (
     CEP CHAR(8) NULL
 );
 
+-- Criando a dimensão DimensaoCategoria
+CREATE TABLE DimensaoCategoria (
+    CategoriaID INT PRIMARY KEY,
+    Nome VARCHAR(50) NOT NULL
+);
+
 -- Criando a dimensão DimensaoProduto
 CREATE TABLE DimensaoProduto (
     ProdutoID INT PRIMARY KEY,
     Nome VARCHAR(100) NOT NULL,
     Descricao VARCHAR(MAX) NULL,
     CategoriaID INT FOREIGN KEY REFERENCES DimensaoCategoria(CategoriaID)
-);
-
--- Criando a dimensão DimensaoCategoria
-CREATE TABLE DimensaoCategoria (
-    CategoriaID INT PRIMARY KEY,
-    Nome VARCHAR(50) NOT NULL
 );
 
 -- Criando a dimensão DimensaoFuncionario
@@ -37,11 +37,14 @@ CREATE TABLE DimensaoFuncionario (
 
 -- Criando a dimensão DimensaoTempo
 CREATE TABLE DimensaoTempo (
-    DataID INT PRIMARY KEY,
-    Data DATE NOT NULL,
+    DataID INT IDENTITY(1,1) PRIMARY KEY,
+    Data DATETIME,
     Ano INT NOT NULL,
     Mes INT NOT NULL,
-    Semana INT NOT NULL
+    Dia INT NOT NULL,
+    DiaSemana INT NOT NULL,
+    DiaAno INT NOT NULL,
+    CONSTRAINT Unique_Date UNIQUE(Data)
 );
 
 -- Criando a dimensão DimensaoInteracao
@@ -52,7 +55,7 @@ CREATE TABLE DimensaoInteracao (
 
 -- Criando a tabela de fatos FatoPedido
 CREATE TABLE FatoPedido (
-    PedidoID INT PRIMARY KEY,
+    PedidoID INT IDENTITY(1,1) PRIMARY KEY,
     ClienteID INT FOREIGN KEY REFERENCES DimensaoCliente(ClienteID),
     FuncionarioID INT FOREIGN KEY REFERENCES DimensaoFuncionario(FuncionarioID),
     DataID INT FOREIGN KEY REFERENCES DimensaoTempo(DataID),
